@@ -1,21 +1,30 @@
-import React, { useState } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import React from "react";
+import { BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import PrivateRoute from './privateRoute/PrivateRoute'
+import BubblesPage from './components/BubblePage'
+import { Container } from 'reactstrap'
+
 
 import Login from "./components/Login";
 import "./styles.scss";
 
 function App() {
-  return (
-    <Router>
-      <div className="App">
-        <Route exact path="/" component={Login} />
-        {/* 
-          Build a PrivateRoute component that will 
-          display BubblePage when you're authenticated 
-        */}
-      </div>
-    </Router>
-  );
+    return (
+        <Router>
+            <Container>
+                <div className="App">
+                    <Switch>
+                        <PrivateRoute path="/bubbles" component={BubblesPage} />
+                        <Route exact path="/" component={Login} />
+
+                        <Route path="/logout">
+                            {localStorage.removeItem('token')}
+                        </Route>
+                    </Switch>
+                </div>
+            </Container>
+        </Router>
+    );
 }
 
 export default App;
